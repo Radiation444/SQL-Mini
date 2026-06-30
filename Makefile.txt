@@ -1,0 +1,41 @@
+CXX      := g++
+CXXFLAGS := -std=c++17 -O2 -Wall -Wextra
+
+SRC_DIR  := src
+SRCS     := $(SRC_DIR)/btree.cpp \
+            $(SRC_DIR)/buffer_pool.cpp \
+            $(SRC_DIR)/node.cpp \
+            $(SRC_DIR)/pager.cpp \
+            $(SRC_DIR)/schema.cpp \
+            $(SRC_DIR)/slotted_page.cpp \
+            $(SRC_DIR)/sql_engine.cpp \
+            $(SRC_DIR)/table.cpp \
+            $(SRC_DIR)/main.cpp
+
+BENCH_SRCS := $(SRC_DIR)/btree.cpp \
+              $(SRC_DIR)/buffer_pool.cpp \
+              $(SRC_DIR)/node.cpp \
+              $(SRC_DIR)/pager.cpp \
+              $(SRC_DIR)/schema.cpp \
+              $(SRC_DIR)/slotted_page.cpp \
+              $(SRC_DIR)/sql_engine.cpp \
+              $(SRC_DIR)/table.cpp \
+              bench/bench_main.cpp
+
+TARGET       := tinysql.exe
+BENCH_TARGET := bench/bench.exe
+
+.PHONY: all bench clean
+
+all: $(TARGET)
+
+$(TARGET): $(SRCS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+bench: $(BENCH_TARGET)
+
+$(BENCH_TARGET): $(BENCH_SRCS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+clean:
+	rm -f $(TARGET) $(BENCH_TARGET) *.o *.db bench/*.o bench/*.db bench_*.txt bench/bench_*.txt
